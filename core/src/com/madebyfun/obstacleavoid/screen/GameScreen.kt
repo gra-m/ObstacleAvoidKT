@@ -2,9 +2,9 @@
 package com.madebyfun.obstacleavoid.screen
 
 import com.badlogic.gdx.Screen
-import com.badlogic.gdx.files.FileHandle
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.madebyfun.obstacleavoid.utils.toInternalFile
 
 class GameScreen : Screen {
 
@@ -13,7 +13,8 @@ class GameScreen : Screen {
     
     override fun show() {
         batch = SpriteBatch()
-        img = Texture(FileHandle("badlogic.jpg"))
+        img = Texture("badlogic.jpg".toInternalFile())
+        //img = Texture(FileHandle("badlogic.jpg"))
     }
 
     override fun render(delta: Float) {
