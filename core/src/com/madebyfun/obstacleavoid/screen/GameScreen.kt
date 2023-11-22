@@ -25,7 +25,6 @@ class GameScreen : Screen {
         camera.setToOrtho(false)
         viewport = FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera)
         renderer = ShapeRenderer()
-        renderer.projectionMatrix = camera.combined
         debugCameraController = DebugCameraController()
         debugCameraController.setStartPosition(GameConfig.WORLD_CENTER_X, GameConfig.WORLD_CENTER_Y)
     }
@@ -35,7 +34,7 @@ class GameScreen : Screen {
         debugCameraController.applyTo(camera)
         
         clearScreen()
-        //viewport.apply()// this was missing??
+        renderer.projectionMatrix = camera.combined
         viewport.drawGrid(renderer)
     }
 
