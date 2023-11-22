@@ -8,13 +8,16 @@ import com.badlogic.gdx.utils.viewport.FitViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import com.madebyfun.obstacleavoid.config.GameConfig
 import com.madebyfun.obstacleavoid.utils.clearScreen
+import com.madebyfun.obstacleavoid.utils.debug.DebugCameraController
 import com.madebyfun.obstacleavoid.utils.drawGrid
 
 class GameScreen : Screen {
-    private var centeredCamera = false
+    private var centeredCamera = true
+
     private lateinit var camera: OrthographicCamera
     private lateinit var viewport: Viewport
     private lateinit var renderer: ShapeRenderer
+    private lateinit var debugCameraController: DebugCameraController
 
 
     override fun show() {
@@ -23,9 +26,14 @@ class GameScreen : Screen {
         viewport = FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera)
         renderer = ShapeRenderer()
         renderer.projectionMatrix = camera.combined
+        debugCameraController = DebugCameraController()
+        debugCameraController.setStartPosition(GameConfig.WORLD_CENTER_X, GameConfig.WORLD_CENTER_Y)
     }
 
     override fun render(delta: Float) {
+        debugCameraController.handleDebugInput()
+        debugCameraController.applyTo(camera)
+        
         clearScreen()
         viewport.drawGrid(renderer)
     }

@@ -5,7 +5,8 @@ object GameConfig {
 
     const val WIDTH = 480 // pix
     const val HEIGHT = 800
-
     const val WORLD_WIDTH = 6.0f     // wu
     const val WORLD_HEIGHT = 10.0f
+    const val WORLD_CENTER_X = WORLD_WIDTH/2
+    const val WORLD_CENTER_Y = WORLD_HEIGHT/2
 }
