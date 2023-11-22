@@ -2,32 +2,40 @@
 package com.madebyfun.obstacleavoid.screen
 
 import com.badlogic.gdx.Screen
-import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.graphics.OrthographicCamera
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import com.badlogic.gdx.utils.viewport.FitViewport
+import com.badlogic.gdx.utils.viewport.Viewport
+import com.madebyfun.obstacleavoid.config.GameConfig
 import com.madebyfun.obstacleavoid.utils.clearScreen
-import com.madebyfun.obstacleavoid.utils.toInternalFile
-import com.madebyfun.obstacleavoid.utils.use
+import com.madebyfun.obstacleavoid.utils.drawGrid
 
 class GameScreen : Screen {
+    private val centerCamera = true
+    private lateinit var camera: OrthographicCamera
+    private lateinit var viewport: Viewport
+    private lateinit var renderer: ShapeRenderer
 
-    private lateinit var batch: SpriteBatch
-    private lateinit var img: Texture
-    
+
     override fun show() {
-        batch = SpriteBatch()
-        img = Texture("badlogic.jpg".toInternalFile()) //
-        //img = Texture(FileHandle("badlogic.jpg"))
+        camera = OrthographicCamera()
+        viewport = FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera)
+        renderer = ShapeRenderer()
+        renderer.projectionMatrix = camera.combined
     }
 
     override fun render(delta: Float) {
         clearScreen()
-        batch.use{batch.draw(img, 0f, 0f)}
+        viewport.drawGrid(renderer)
     }
 
-
-
     override fun resize(width: Int, height: Int) {
-        //Viewport
+        dontForgetToUpdateViewport(width, height)
+
+    }
+
+    private fun dontForgetToUpdateViewport(width: Int, height: Int) {
+        viewport.update(width, height, centerCamera)
     }
 
     override fun pause() {
@@ -41,7 +49,6 @@ class GameScreen : Screen {
     }
 
     override fun dispose() {
-        batch.dispose()
-        img.dispose()
+        renderer.dispose()
     }
 }
