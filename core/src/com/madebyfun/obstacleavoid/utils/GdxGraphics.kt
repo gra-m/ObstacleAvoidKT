@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import com.badlogic.gdx.math.Circle
 
 @JvmOverloads // makes java recognise these as overloaded 
 fun clearScreen(color: Color = Color.BLACK) = clearScreen(0.0f, 0.0f, 0.0f, 1.0f)
@@ -27,4 +28,9 @@ inline fun ShapeRenderer.use(action: () -> Unit) {
     begin(ShapeRenderer.ShapeType.Line)
     action()
     end()
+}
+
+@JvmOverloads
+fun ShapeRenderer.circle(c: Circle, segments: Int = 30) {
+    circle(c.x, c.y, c.radius, segments)
 }
