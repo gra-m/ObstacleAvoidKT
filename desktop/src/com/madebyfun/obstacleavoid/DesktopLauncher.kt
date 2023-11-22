@@ -7,7 +7,7 @@ import com.madebyfun.obstacleavoid.config.GameConfig
 
 fun main() {
     val config = Lwjgl3ApplicationConfiguration()
-    config.setWindowSizeLimits(GameConfig.WIDTH, GameConfig.HEIGHT, GameConfig.WIDTH, GameConfig.HEIGHT)
+    config.setWindowedMode(GameConfig.WIDTH, GameConfig.HEIGHT)
     config.setTitle("obstacle-avoid.kt")
     Lwjgl3Application(ObstacleAvoidKTGame(), config)
 }

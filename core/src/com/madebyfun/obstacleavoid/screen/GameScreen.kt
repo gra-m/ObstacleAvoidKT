@@ -11,7 +11,7 @@ import com.madebyfun.obstacleavoid.utils.clearScreen
 import com.madebyfun.obstacleavoid.utils.drawGrid
 
 class GameScreen : Screen {
-    private val centerCamera = true
+    private var centeredCamera = false
     private lateinit var camera: OrthographicCamera
     private lateinit var viewport: Viewport
     private lateinit var renderer: ShapeRenderer
@@ -19,6 +19,7 @@ class GameScreen : Screen {
 
     override fun show() {
         camera = OrthographicCamera()
+        camera.setToOrtho(false)
         viewport = FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera)
         renderer = ShapeRenderer()
         renderer.projectionMatrix = camera.combined
@@ -30,12 +31,8 @@ class GameScreen : Screen {
     }
 
     override fun resize(width: Int, height: Int) {
-        dontForgetToUpdateViewport(width, height)
+        viewport.update(width, height, centeredCamera)
 
-    }
-
-    private fun dontForgetToUpdateViewport(width: Int, height: Int) {
-        viewport.update(width, height, centerCamera)
     }
 
     override fun pause() {
