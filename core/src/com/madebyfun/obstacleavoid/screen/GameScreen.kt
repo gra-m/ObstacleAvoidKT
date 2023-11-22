@@ -35,6 +35,7 @@ class GameScreen : Screen {
         debugCameraController.applyTo(camera)
         
         clearScreen()
+        //viewport.apply()// this was missing??
         viewport.drawGrid(renderer)
     }
 

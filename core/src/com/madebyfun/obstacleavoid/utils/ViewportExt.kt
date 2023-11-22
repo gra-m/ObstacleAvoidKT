@@ -15,14 +15,15 @@ fun Viewport.drawGrid(renderer: ShapeRenderer, cellSize: Int = 1) {
         renderer.color = Color.WHITE
         var drawVerticalLines = true
         var drawHorizontalLines = true
-        //var x = -doubleWorldWidth
-        //var y = -doubleWorldHeight
+        var x = -doubleWorldWidth
+        var y = -doubleWorldHeight
         renderer.x(0f, 0f, 2f )
-        /*while(drawVerticalLines) {
+        while(drawVerticalLines) {
             renderer.line(x, -doubleWorldHeight, x, doubleWorldHeight)
             x += cellSize
             drawVerticalLines = x < doubleWorldWidth
         }
+
         while(drawHorizontalLines) {
             renderer.line(-doubleWorldWidth , y, doubleWorldWidth, y)
             y += cellSize
@@ -37,7 +38,6 @@ fun Viewport.drawGrid(renderer: ShapeRenderer, cellSize: Int = 1) {
         renderer.line(0f, 0f, 0f, worldHeight)
         renderer.line(worldWidth, 0f, worldWidth, worldHeight)
 
-         */
 
 
 
