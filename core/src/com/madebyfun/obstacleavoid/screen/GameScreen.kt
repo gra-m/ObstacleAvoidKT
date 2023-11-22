@@ -36,6 +36,10 @@ class GameScreen : Screen {
     }
 
     override fun render(delta: Float) {
+        // update game world
+        player.update()
+
+
         debugCameraController.handleDebugInput()
         debugCameraController.applyTo(camera)
         
