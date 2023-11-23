@@ -18,6 +18,7 @@ class DebugCameraConfig {
     companion object {
         @JvmStatic
         private val log = logger<DebugCameraConfig>()
+        private const val ZOOM_OUT_CONSTRAINED_TO_THIS = 5
         private const val FILE_PATH = "debug/debug-camera.json"
         private const val MAX_ZOOM_IN = "maxZoomIn"
         private const val MAX_ZOOM_OUT = "maxZoomOut"
@@ -51,8 +52,9 @@ class DebugCameraConfig {
     }
 
     private var fileHandle = FILE_PATH.toInternalFile()
-    private var moveSpeed = DEFAULT_MOVE_SPEED
-    private var zoomSpeed = DEFAULT_ZOOM_SPEED
+    var moveSpeed = DEFAULT_MOVE_SPEED
+    var zoomSpeed = DEFAULT_ZOOM_SPEED
+    var zoomOutConstrainedToThis = ZOOM_OUT_CONSTRAINED_TO_THIS
 
     private var leftKey = DEFAULT_LEFT_KEY
     private var rightKey = DEFAULT_RIGHT_KEY
@@ -71,7 +73,7 @@ class DebugCameraConfig {
         if (fileHandle.exists()) {
             load()
         } else {
-            log.debug("Using defaults as file @ $FILE_PATH\nnot found.")
+            log.debug("Using defaults\nfile @ $FILE_PATH\nnot found.")
             setupDefaults()
 
         }
@@ -90,7 +92,6 @@ class DebugCameraConfig {
         zoomOutKey = DEFAULT_ZOOM_OUT_KEY
         resetKey = DEFAULT_RESET_KEY
         logKey = DEFAULT_LOG_KEY
-        log.debug("default config = $this")
     }
 
     fun isLeftPressed() = leftKey.isKeyPressed()
@@ -119,8 +120,6 @@ class DebugCameraConfig {
             zoomOutKey = getInputKeyValue(root, ZOOM_OUT_KEY, DEFAULT_ZOOM_OUT_KEY)
             resetKey = getInputKeyValue(root, RESET_KEY, DEFAULT_RESET_KEY)
             logKey = getInputKeyValue(root, LOG_KEY, DEFAULT_LOG_KEY)
-            log.debug("camera config loaded from $FILE_PATH config =$this")
-
         } catch (e: Exception) {
             log.error("Error loading $FILE_PATH using defaults.")
             setupDefaults()
