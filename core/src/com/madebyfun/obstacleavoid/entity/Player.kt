@@ -4,6 +4,7 @@ package com.madebyfun.obstacleavoid.entity
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.math.Circle
+import com.madebyfun.obstacleavoid.config.GameConfig
 import com.madebyfun.obstacleavoid.utils.circle
 import com.madebyfun.obstacleavoid.utils.isKeyPressed
 
@@ -14,8 +15,18 @@ class Player {
         private const val MAX_X_SPEED = 0.25f
     }
     val bounds: Circle
-    var x: Float = 0f
-    var y: Float = 0f
+    private var x: Float = 0f
+        set (value) {
+            val rightMostExtent = GameConfig.WORLD_WIDTH - BOUNDS_RADIUS
+            val leftMostExtent = BOUNDS_RADIUS
+            field = if (value > rightMostExtent)
+                rightMostExtent
+            else if (value < leftMostExtent)
+                leftMostExtent
+            else
+                value
+        }
+    private var y: Float = 0f
 
     init {
         bounds = Circle(x, y, BOUNDS_RADIUS)

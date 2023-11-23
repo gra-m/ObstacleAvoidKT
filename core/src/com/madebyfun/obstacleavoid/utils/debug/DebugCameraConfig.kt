@@ -53,8 +53,11 @@ class DebugCameraConfig {
 
     private var fileHandle = FILE_PATH.toInternalFile()
     var moveSpeed = DEFAULT_MOVE_SPEED
+        private set
     var zoomSpeed = DEFAULT_ZOOM_SPEED
+        private set
     var zoomOutConstrainedToThis = ZOOM_OUT_CONSTRAINED_TO_THIS
+        private set
 
     private var leftKey = DEFAULT_LEFT_KEY
     private var rightKey = DEFAULT_RIGHT_KEY
