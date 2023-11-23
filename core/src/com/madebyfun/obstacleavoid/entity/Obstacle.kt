@@ -1,18 +1,16 @@
 //Created by Graham Duthie on 22/11/2023 16:18
 package com.madebyfun.obstacleavoid.entity
 
-import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.math.Circle
 import com.madebyfun.obstacleavoid.config.GameConfig
 import com.madebyfun.obstacleavoid.utils.circle
-import com.madebyfun.obstacleavoid.utils.isKeyPressed
 
-class Player {
+class Obstacle(x: Float, y: Float) {
     companion object {
         private const val BOUNDS_RADIUS = 0.4f
         private const val SIZE = BOUNDS_RADIUS * 2
-        private const val MAX_X_SPEED = 0.25f
+        private const val MAX_Y_SPEED = 0.25f
     }
     private var x: Float = 0f
         set (value) {
@@ -26,20 +24,21 @@ class Player {
                 value
         }
     private var y: Float = 0f
+        set(value) {
+            val upperMostOutOfViewExtent = GameConfig.WORLD_HEIGHT + SIZE
+            val lowerMostOutOfViewExtent = 0 - SIZE
+           field = if (value > upperMostOutOfViewExtent)
+               upperMostOutOfViewExtent
+            else if (value < lowerMostOutOfViewExtent)
+                lowerMostOutOfViewExtent
+            else
+                value
+        }
+    var bounds = Circle(x, y, BOUNDS_RADIUS)
 
-    val bounds: Circle
-
-    init {
-        bounds = Circle(x, y, BOUNDS_RADIUS)
-    }
 
     fun update() {
-        var xSpeed = 0f
-        when {
-            Input.Keys.RIGHT.isKeyPressed() -> xSpeed = MAX_X_SPEED
-            Input.Keys.LEFT.isKeyPressed() -> xSpeed = -MAX_X_SPEED
-        }
-        x+= xSpeed
+        y+= MAX_Y_SPEED
         updateBounds()
     }
 
@@ -53,5 +52,6 @@ class Player {
     fun drawDebug(renderer: ShapeRenderer) = renderer.circle(bounds)
 
     private fun updateBounds() = bounds.setPosition(x, y)
+
 
 }
