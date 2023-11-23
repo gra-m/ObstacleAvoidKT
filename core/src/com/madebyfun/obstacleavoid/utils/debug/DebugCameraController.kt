@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.madebyfun.obstacleavoid.config.GameConfig
+import com.madebyfun.obstacleavoid.uti.DebugCameraConfig
 import com.madebyfun.obstacleavoid.utils.isKeyPressed
 import com.madebyfun.obstacleavoid.utils.logger
 
@@ -31,6 +32,7 @@ class DebugCameraController {
 
     private val position = Vector2()
     private val startPosition = Vector2()
+    private val config = DebugCameraConfig()
     private var cameraViewportWidth = 1f
     private var zoom = 1f
         set(value) {
