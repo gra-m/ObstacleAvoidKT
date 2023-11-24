@@ -35,8 +35,7 @@ class GameScreen : Screen {
         camera.setToOrtho(false)
         viewport = FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera)
         renderer = ShapeRenderer()
-        player = Player()
-        player.setPosition(GameConfig.WORLD_CENTER_X, 1f)
+        player = Player(GameConfig.WORLD_CENTER_X, 1.0f)
         debugCameraController = DebugCameraController()
         debugCameraController.setStartPosition(GameConfig.WORLD_CENTER_X, WORLD_CENTER_Y)
     }
