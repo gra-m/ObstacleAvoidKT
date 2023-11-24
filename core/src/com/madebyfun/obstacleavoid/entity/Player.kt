@@ -10,7 +10,7 @@ import com.madebyfun.obstacleavoid.utils.isKeyPressed
 
 class Player {
     companion object {
-        private const val BOUNDS_RADIUS = 0.4f
+        private const val BOUNDS_RADIUS = GameConfig.OBSTACLE_AND_PLAYER_RADIUS
         private const val SIZE = BOUNDS_RADIUS * 2
         private const val MAX_X_SPEED = 0.25f
     }
