@@ -4,6 +4,7 @@ package com.madebyfun.obstacleavoid.screen
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.badlogic.gdx.utils.viewport.Viewport
@@ -68,18 +69,10 @@ class GameScreen : Screen {
         }
     }
 
+    // previous do while with replacement limits of 0.06667 and 0.93333
+    // replaced with explicit and simpler range
     private fun getRandomX(): Float {
-        // do not want 0 -> 1 as start is 0.4 and end is world width -04
-        // without some calming here, more obstacles will spawn on sides.
-        // can use MathUtils.Random with a range, but leaving this for now
-        var randomBetween0and1 :Double
-
-        do {
-           randomBetween0and1 = Math.random()
-        } while (randomBetween0and1 < 0.06667 || randomBetween0and1 > 0.93333)
-        return (randomBetween0and1 * 6.0).toFloat()
-
-
+        return MathUtils.random(0.4f, 5.6f)
     }
 
     private fun updateObstacles() {
