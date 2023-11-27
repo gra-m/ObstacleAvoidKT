@@ -16,14 +16,12 @@ import com.madebyfun.obstacleavoid.config.GameConfig
 import com.madebyfun.obstacleavoid.config.GameConfig.WORLD_CENTER_Y
 import com.madebyfun.obstacleavoid.entity.Obstacle
 import com.madebyfun.obstacleavoid.entity.Player
-import com.madebyfun.obstacleavoid.utils.clearScreen
+import com.madebyfun.obstacleavoid.utils.*
 import com.madebyfun.obstacleavoid.utils.debug.DebugCameraController
-import com.madebyfun.obstacleavoid.utils.drawGrid
-import com.madebyfun.obstacleavoid.utils.toInternalFile
-import com.madebyfun.obstacleavoid.utils.use
 
 class GameScreen : Screen {
     companion object {
+        private val log = logger<GameScreen>()
 
     }
     private var centeredCamera = true
@@ -46,6 +44,9 @@ class GameScreen : Screen {
     private var obstacleTimer = 0f
     private val obstacles = Array<Obstacle>()
     private var timeSinceCollision = 0f
+    private var timeToScore = 0f
+    private var displayScore = 0
+    private var score = 0
 
 
     override fun show() {
@@ -70,6 +71,8 @@ class GameScreen : Screen {
         if (lives > 0) {
             updatePlayerAndObstacles(delta)
             createNewObstacle(delta)
+            updateScore(delta)
+            displayScore = smoothScores(score, displayScore, delta)
         }
 
         renderer.projectionMatrix = camera.combined
@@ -84,15 +87,40 @@ class GameScreen : Screen {
 
     }
 
+
+
+
+    private fun updateScore(delta: Float) {
+        timeToScore += delta
+
+        if(timeToScore >= GameConfig.SCORE_NOW_TIME) {
+            timeToScore = 0f
+            score += MathUtils.random(1, 5)
+            log.debug("Score Now: $score")
+        }
+
+
+
+    }
+
     private fun renderUI() {
-        val livesText = "LIVES: $lives"
-        layout.setText(font, livesText)
+
         batch.projectionMatrix = hudCamera.combined
         batch.use {
+            val livesText = "LIVES: $lives"
+            val scoreText = "SCORE: $displayScore"
+            layout.setText(font, livesText)
             font.draw(
                 batch,
                 layout,
                 20f,
+                GameConfig.HUD_HEIGHT - layout.height
+            )
+            layout.setText(font, scoreText)
+            font.draw(
+                batch,
+                layout,
+                GameConfig.HUD_WIDTH - (layout.width + 20),
                 GameConfig.HUD_HEIGHT - layout.height
             )
         }

@@ -4,7 +4,7 @@ package com.madebyfun.obstacleavoid.utils
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.utils.viewport.Viewport
-// extension function adding a function to Viewport with defineable cell size defaulting at 1
+// extension function adding a function to Viewport with definable cell size defaulting at 1
 @JvmOverloads
 fun Viewport.drawGrid(renderer: ShapeRenderer, cellSize: Int = 1) {
     val oldColor = renderer.color.cpy()
