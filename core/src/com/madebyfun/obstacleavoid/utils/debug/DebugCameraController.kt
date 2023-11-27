@@ -30,7 +30,7 @@ class DebugCameraController {
     init {
         log.debug("$config")
     }
-    fun setStartPosition(x: Float, y: Float) {
+    open fun setStartPosition(x: Float, y: Float) {
         startPosition.set(x, y)
         position.set(x, y)
     }
