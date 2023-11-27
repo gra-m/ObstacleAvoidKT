@@ -7,7 +7,6 @@ import com.madebyfun.obstacleavoid.config.Difficulty
 import com.madebyfun.obstacleavoid.config.GameConfig
 import com.madebyfun.obstacleavoid.entity.Obstacle
 import com.madebyfun.obstacleavoid.entity.Player
-import com.madebyfun.obstacleavoid.utils.clearScreen
 import com.madebyfun.obstacleavoid.utils.logger
 import com.madebyfun.obstacleavoid.utils.smoothScores
 
@@ -33,7 +32,6 @@ class GameController {
 
 
     fun update(delta: Float) {
-        clearScreen()
         if (!gameOver) {
             updatePlayerAndObstacles(delta)
             createNewObstacle(delta)

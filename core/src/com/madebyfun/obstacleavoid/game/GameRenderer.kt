@@ -55,7 +55,6 @@ class GameRenderer(private val controller: GameController) : Disposable {
         }
 
         renderUI()
-        viewport.apply()
         viewport.drawGrid(renderer)
 
     }
