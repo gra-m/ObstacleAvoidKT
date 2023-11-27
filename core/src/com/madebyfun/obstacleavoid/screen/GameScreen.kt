@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import com.madebyfun.obstacleavoid.assets.AssetPaths
+import com.madebyfun.obstacleavoid.config.Difficulty
 import com.madebyfun.obstacleavoid.config.GameConfig
 import com.madebyfun.obstacleavoid.config.GameConfig.WORLD_CENTER_Y
 import com.madebyfun.obstacleavoid.entity.Obstacle
@@ -41,12 +42,15 @@ class GameScreen : Screen {
     private lateinit var debugCameraController: DebugCameraController
 
     private var lives = GameConfig.PLAYER_START_LIVES
+    private var gameOver = false
+        get() = lives <= 0
     private var obstacleTimer = 0f
     private val obstacles = Array<Obstacle>()
     private var timeSinceCollision = 0f
     private var timeToScore = 0f
     private var displayScore = 0
     private var score = 0
+    private var difficulty = Difficulty.HARD
 
 
     override fun show() {
@@ -68,7 +72,7 @@ class GameScreen : Screen {
         debugCameraController.handleDebugInput()
         debugCameraController.applyTo(camera)
         clearScreen()
-        if (lives > 0) {
+        if (!gameOver) {
             updatePlayerAndObstacles(delta)
             createNewObstacle(delta)
             updateScore(delta)
@@ -87,20 +91,13 @@ class GameScreen : Screen {
 
     }
 
-
-
-
     private fun updateScore(delta: Float) {
         timeToScore += delta
 
         if(timeToScore >= GameConfig.SCORE_NOW_TIME) {
             timeToScore = 0f
             score += MathUtils.random(1, 5)
-            log.debug("Score Now: $score")
         }
-
-
-
     }
 
     private fun renderUI() {
@@ -124,7 +121,6 @@ class GameScreen : Screen {
                 GameConfig.HUD_HEIGHT - layout.height
             )
         }
-
     }
 
     private fun updatePlayerAndObstacles(delta: Float) {
@@ -151,7 +147,7 @@ class GameScreen : Screen {
 
         if (obstacleTimer >= GameConfig.OBSTACLE_SPAWN_TIME) {
             obstacleTimer = 0f
-            obstacles.add(Obstacle(getRandomX(), GameConfig.WORLD_HEIGHT))
+            obstacles.add(Obstacle(getRandomX(), GameConfig.WORLD_HEIGHT, difficulty))
         }
     }
 

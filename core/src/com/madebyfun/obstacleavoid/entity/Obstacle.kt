@@ -2,17 +2,16 @@
 package com.madebyfun.obstacleavoid.entity
 
 import com.badlogic.gdx.math.Circle
+import com.madebyfun.obstacleavoid.config.Difficulty
 
-class Obstacle(x: Float, y: Float) : ObjectBase(x, y) {
-    companion object {
-        private const val MAX_Y_SPEED = 0.15f
-    }
+class Obstacle(x: Float, y: Float, private val difficulty: Difficulty) : ObjectBase(x, y) {
 
+    
     override val bounds = Circle(x, y, boundsRadius)
 
     // Called from GameScreen Render on delta
     fun update() {
-        y-= MAX_Y_SPEED
+        y-= difficulty.obstacleSpeed
         updateBounds()
     }
 
