@@ -45,6 +45,7 @@ class GameScreen : Screen {
     private var lives = GameConfig.PLAYER_START_LIVES
     private var obstacleTimer = 0f
     private val obstacles = Array<Obstacle>()
+    private var timeSinceCollision = 0f
 
 
     override fun show() {
@@ -67,7 +68,7 @@ class GameScreen : Screen {
         debugCameraController.applyTo(camera)
         clearScreen()
         if (lives > 0) {
-            updatePlayerAndObstacles()
+            updatePlayerAndObstacles(delta)
             createNewObstacle(delta)
         }
 
@@ -98,11 +99,12 @@ class GameScreen : Screen {
 
     }
 
-    private fun updatePlayerAndObstacles() {
+    private fun updatePlayerAndObstacles(delta: Float) {
+        timeSinceCollision += delta
         player.update()
         updateObstacles()
-        if(playerIsCollidingWithObstacle()) {
-
+        if(playerIsCollidingWithObstacle() && timeSinceCollision >= 1f) {
+            timeSinceCollision = 0f
             lives--
         }
     }
