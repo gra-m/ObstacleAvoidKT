@@ -2,6 +2,7 @@
 package com.madebyfun.obstacleavoid.game
 
 import com.badlogic.gdx.graphics.OrthographicCamera
+import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.GlyphLayout
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
@@ -27,8 +28,12 @@ class GameRenderer(private val controller: GameController) : Disposable {
     private val hudCamera = OrthographicCamera()
     private val hudViewport = FitViewport(GameConfig.HUD_WIDTH, GameConfig.HUD_HEIGHT, hudCamera)
     private val batch = SpriteBatch()
-    private val font =  BitmapFont(AssetPaths.HUD_FONT.toInternalFile())
     private val layout = GlyphLayout()
+
+    private val font =  BitmapFont(AssetPaths.HUD_FONT.toInternalFile())
+    private val texturePlayer = Texture(AssetPaths.PLAYER_TEXTURE.toInternalFile())
+    private val textureObstacle = Texture(AssetPaths.OBSTACLE_TEXTURE.toInternalFile())
+    private val textureBackground = Texture(AssetPaths.BACKGROUND_TEXTURE.toInternalFile())
 
     // game and debug
     private val camera = OrthographicCamera()
@@ -47,8 +52,9 @@ class GameRenderer(private val controller: GameController) : Disposable {
         debugCameraController.handleDebugInput()
         debugCameraController.applyTo(camera)
         clearScreen()
-        renderDebug(viewport)
+        renderGamePlay(viewport)
         renderUI(hudViewport)
+        renderDebug(viewport)
         viewport.drawGrid(renderer)
 
     }
@@ -60,6 +66,23 @@ class GameRenderer(private val controller: GameController) : Disposable {
             controller.player.drawDebug(renderer)
             controller.obstacles.forEach { it.drawDebug(renderer) }
         }
+    }
+
+    private fun renderGamePlay(viewport: Viewport) {
+        beforeRenderingApplyRelevantViewport(viewport)
+        batch.projectionMatrix = camera.combined
+
+        batch.use {
+            batch.draw(textureBackground, 0f, 0f, GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT )
+            batch.draw(texturePlayer, controller.player.textureX, controller.player.textureY,
+                GameConfig.OBSTACLE_AND_PLAYER_SIZE,GameConfig.OBSTACLE_AND_PLAYER_SIZE)
+            controller.obstacles.forEach{
+                batch.draw(textureObstacle, it.textureX, it.textureY, GameConfig.OBSTACLE_AND_PLAYER_SIZE,
+                    GameConfig.OBSTACLE_AND_PLAYER_SIZE)
+            }
+            
+        }
+
     }
 
     private fun beforeRenderingApplyRelevantViewport(viewport: Viewport) {
