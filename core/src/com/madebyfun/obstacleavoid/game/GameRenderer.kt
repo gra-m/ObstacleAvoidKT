@@ -62,9 +62,13 @@ class GameRenderer(private val controller: GameController) : Disposable {
     private fun renderDebug(viewport: Viewport) {
         beforeRenderingApplyRelevantViewport(viewport)
         renderer.projectionMatrix = camera.combined
+
         renderer.use {
-            controller.player.drawDebug(renderer)
-            controller.obstacles.forEach { it.drawDebug(renderer) }
+            renderer.x(controller.player.x, controller.player.y, 0.1f)
+            renderer.circle(controller.player.bounds)
+            controller.obstacles.forEach {
+                renderer.circle(it.bounds)
+            }
         }
     }
 
