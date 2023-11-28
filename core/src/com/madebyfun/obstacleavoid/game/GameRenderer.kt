@@ -125,5 +125,8 @@ class GameRenderer(private val controller: GameController) : Disposable {
         renderer.dispose()
         batch.dispose()
         font.dispose()
+        textureObstacle.dispose()
+        textureBackground.dispose()
+        texturePlayer.dispose()
     }
 }
