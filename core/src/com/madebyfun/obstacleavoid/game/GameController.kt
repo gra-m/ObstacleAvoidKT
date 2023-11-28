@@ -81,6 +81,13 @@ class GameController {
 
     private fun updateObstacles() {
         obstacles.forEach{it -> it.update()}
+        obstacles.forEach{it ->
+            run {
+                if (it.offOfVisibleGameScreen) {
+                    obstacles.removeValue(it,true)
+                }
+            }
+        }
     }
 
 }

@@ -7,6 +7,8 @@ import com.madebyfun.obstacleavoid.config.GameConfig
 import com.madebyfun.obstacleavoid.utils.circle
 
 abstract class ObjectBase(var x: Float, var y: Float) {
+    var offOfVisibleGameScreen = false
+        get() = this.y < -GameConfig.OBSTACLE_AND_PLAYER_RADIUS
 
     val boundsRadius = GameConfig.OBSTACLE_AND_PLAYER_RADIUS
     abstract val bounds: Circle
