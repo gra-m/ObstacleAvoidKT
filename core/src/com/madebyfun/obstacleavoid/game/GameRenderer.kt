@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.utils.Disposable
 import com.badlogic.gdx.utils.viewport.FitViewport
+import com.badlogic.gdx.utils.viewport.Viewport
 import com.madebyfun.obstacleavoid.assets.AssetPaths
 import com.madebyfun.obstacleavoid.config.GameConfig
 import com.madebyfun.obstacleavoid.screen.GameScreen
@@ -43,24 +44,30 @@ class GameRenderer(private val controller: GameController) : Disposable {
     }
 
     fun render() {
-        log.debug("RENDER CALLED")
         debugCameraController.handleDebugInput()
         debugCameraController.applyTo(camera)
         clearScreen()
-
-        renderer.projectionMatrix = camera.combined
-        renderer.use{
-            controller.player.drawDebug(renderer)
-            controller.obstacles.forEach{it.drawDebug(renderer)}
-        }
-
-        renderUI()
+        renderDebug(viewport)
+        renderUI(hudViewport)
         viewport.drawGrid(renderer)
 
     }
 
-    private fun renderUI() {
+    private fun renderDebug(viewport: Viewport) {
+        beforeRenderingApplyRelevantViewport(viewport)
+        renderer.projectionMatrix = camera.combined
+        renderer.use {
+            controller.player.drawDebug(renderer)
+            controller.obstacles.forEach { it.drawDebug(renderer) }
+        }
+    }
 
+    private fun beforeRenderingApplyRelevantViewport(viewport: Viewport) {
+        viewport.apply()
+    }
+
+    private fun renderUI(hudViewport: FitViewport) {
+        beforeRenderingApplyRelevantViewport(hudViewport)
         batch.projectionMatrix = hudCamera.combined
         batch.use {
             val livesText = "LIVES: ${controller.lives}"

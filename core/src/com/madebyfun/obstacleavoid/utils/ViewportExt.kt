@@ -10,6 +10,7 @@ fun Viewport.drawGrid(renderer: ShapeRenderer, cellSize: Int = 1) {
     val oldColor = renderer.color.cpy()
     val doubleWorldWidth = worldWidth * 2 // these are calling Viewport getters! Mad!
     val doubleWorldHeight = worldHeight * 2
+    this.apply()
 
     renderer.use {
         renderer.color = Color.WHITE
