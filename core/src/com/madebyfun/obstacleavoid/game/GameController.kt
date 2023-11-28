@@ -3,6 +3,7 @@ package com.madebyfun.obstacleavoid.game
 
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.utils.Array
+import com.badlogic.gdx.utils.Pools
 import com.madebyfun.obstacleavoid.config.Difficulty
 import com.madebyfun.obstacleavoid.config.GameConfig
 import com.madebyfun.obstacleavoid.entity.Obstacle
@@ -23,6 +24,7 @@ class GameController {
         get() = lives <= 0
         private set
     private var obstacleTimer = 0f
+    val obstaclePool = Pools.get(Obstacle::class.java, 5)
     val obstacles = Array<Obstacle>()
     private var timeSinceCollision = 0f
     private var timeToScore = 0f
@@ -71,7 +73,9 @@ class GameController {
 
         if (obstacleTimer >= GameConfig.OBSTACLE_SPAWN_TIME) {
             obstacleTimer = 0f
-            obstacles.add(Obstacle(getRandomX(), GameConfig.WORLD_HEIGHT, difficulty))
+            val poolObstacle = obstaclePool.obtain()
+            poolObstacle.setPoolObstacle(getRandomX(), GameConfig.WORLD_HEIGHT, difficulty)
+            obstacles.add(poolObstacle)
         }
     }
 
@@ -84,6 +88,7 @@ class GameController {
         obstacles.forEach{it ->
             run {
                 if (it.offOfVisibleGameScreen) {
+                    obstaclePool.free(it)
                     obstacles.removeValue(it,true)
                 }
             }
