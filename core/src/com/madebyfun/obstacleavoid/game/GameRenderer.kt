@@ -83,7 +83,7 @@ class GameRenderer(private val controller: GameController) : Disposable {
         renderer.projectionMatrix = camera.combined
 
         renderer.use {
-            renderer.x(controller.player.x, controller.player.y, 0.1f)
+            renderer.x(controller.player.getCurrentPlayerX(), controller.player.getCurrentPlayerY(), 0.1f)
             renderer.circle(controller.player.bounds)
             controller.obstacles.forEach {
                 renderer.circle(it.bounds)

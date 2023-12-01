@@ -71,7 +71,7 @@ class GameController {
 
     private fun movePlayer() {
         var xSpeed = 0f
-        var playerMovedX = player.x
+        var playerMovedX = player.getCurrentPlayerX()
 
         when {
             Input.Keys.RIGHT.isKeyPressed() -> xSpeed = GameConfig.PLAYER_MAX_X_SPEED

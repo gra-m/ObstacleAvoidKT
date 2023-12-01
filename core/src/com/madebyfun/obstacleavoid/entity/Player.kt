@@ -4,7 +4,7 @@ package com.madebyfun.obstacleavoid.entity
 import com.badlogic.gdx.math.Circle
 import com.madebyfun.obstacleavoid.config.GameConfig
 
-class Player(x: Float, y: Float) : ObjectBase(x, y) {
+class Player(x: Float = GameConfig.WORLD_CENTER_X, y: Float) : ObjectBase(x, y) {
     companion object {
         //private const val MAX_X_SPEED = 0.25f
         // moved but left companion obj for constants
@@ -16,6 +16,14 @@ class Player(x: Float, y: Float) : ObjectBase(x, y) {
         this.x = withinWorld(x)
         this.y = 1.0f
         updateBounds()
+    }
+
+    fun getCurrentPlayerX() : Float{
+        return this.x
+    }
+
+    fun getCurrentPlayerY() : Float{
+        return this.y
     }
 
     fun reset() {
