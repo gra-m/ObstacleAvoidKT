@@ -2,6 +2,7 @@
 package com.madebyfun.obstacleavoid.entity
 
 import com.badlogic.gdx.math.Circle
+import com.badlogic.gdx.math.MathUtils
 import com.madebyfun.obstacleavoid.config.GameConfig
 
 class Player(x: Float = GameConfig.WORLD_CENTER_X, y: Float) : ObjectBase(x, y) {
@@ -33,15 +34,7 @@ class Player(x: Float = GameConfig.WORLD_CENTER_X, y: Float) : ObjectBase(x, y) 
     }
 
     private fun withinWorld(playerMovedX: Float): Float {
-        var x = playerMovedX
-        val rightmostX = GameConfig.WORLD_WIDTH - boundsRadius
-        val leftmostX = boundsRadius
-
-        if (playerMovedX < leftmostX)
-            x = leftmostX
-        else if (playerMovedX > rightmostX )
-            x = rightmostX
-        return x
+        return MathUtils.clamp(playerMovedX, boundsRadius, GameConfig.WORLD_WIDTH - boundsRadius)
     }
 
 
