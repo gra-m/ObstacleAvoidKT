@@ -1,6 +1,7 @@
 //Created by Graham Duthie on 27/11/2023 16:09
 package com.madebyfun.obstacleavoid.game
 
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.Pools
@@ -8,6 +9,7 @@ import com.madebyfun.obstacleavoid.config.Difficulty
 import com.madebyfun.obstacleavoid.config.GameConfig
 import com.madebyfun.obstacleavoid.entity.Obstacle
 import com.madebyfun.obstacleavoid.entity.Player
+import com.madebyfun.obstacleavoid.utils.isKeyPressed
 import com.madebyfun.obstacleavoid.utils.logger
 import com.madebyfun.obstacleavoid.utils.smoothScores
 
@@ -52,20 +54,47 @@ class GameController {
 
     private fun updatePlayerAndObstacles(delta: Float) {
         timeSinceCollision += delta
-        player.update()
+        movePlayer()
         updateObstacles()
-        if(playerIsCollidingWithObstacle() && timeSinceCollision >= 1f) {
-            timeSinceCollision = 0f
-            lives--
-            when {
-                gameOver -> log.debug("Game Over")
-                else -> restart()
+        
+        when {
+            playerIsCollidingWithObstacle() && timeSinceCollision >= 1f -> {
+                timeSinceCollision = 0f
+                lives--
+                when {
+                    gameOver -> log.debug("Game Over")
+                    else -> restart()
+                }
             }
         }
+    }
 
+    private fun movePlayer() {
+        var xSpeed = 0f
+        var playerMovedX = player.x
 
+        when {
+            Input.Keys.RIGHT.isKeyPressed() -> xSpeed = GameConfig.PLAYER_MAX_X_SPEED
+            Input.Keys.LEFT.isKeyPressed() -> xSpeed = -GameConfig.PLAYER_MAX_X_SPEED
+        }
+        playerMovedX += xSpeed
 
+        player.movePlayer(withinWorld(playerMovedX))
+    }
 
+    /**
+     * Ensures player x and y does not exceed world drawable boundary.
+     */
+    private fun withinWorld(playerMovedX: Float): Float {
+        var x = playerMovedX
+        val rightmostX = GameConfig.WORLD_WIDTH - GameConfig.OBSTACLE_AND_PLAYER_RADIUS
+        val leftmostX = GameConfig.OBSTACLE_AND_PLAYER_RADIUS
+
+        if (playerMovedX < leftmostX)
+            x = leftmostX
+        else if (playerMovedX > rightmostX )
+            x = rightmostX
+        return x
     }
 
     private fun restart() {
