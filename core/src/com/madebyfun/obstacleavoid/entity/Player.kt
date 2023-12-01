@@ -13,7 +13,7 @@ class Player(x: Float, y: Float) : ObjectBase(x, y) {
     override val bounds = Circle(x, y, boundsRadius)
 
     fun movePlayer(x: Float) {
-        this.x = x
+        this.x = withinWorld(x)
         this.y = 1.0f
         updateBounds()
     }
@@ -22,6 +22,18 @@ class Player(x: Float, y: Float) : ObjectBase(x, y) {
         this.x = GameConfig.WORLD_CENTER_X
         this.y = 1f
         updateBounds()
+    }
+
+    private fun withinWorld(playerMovedX: Float): Float {
+        var x = playerMovedX
+        val rightmostX = GameConfig.WORLD_WIDTH - boundsRadius
+        val leftmostX = boundsRadius
+
+        if (playerMovedX < leftmostX)
+            x = leftmostX
+        else if (playerMovedX > rightmostX )
+            x = rightmostX
+        return x
     }
 
 

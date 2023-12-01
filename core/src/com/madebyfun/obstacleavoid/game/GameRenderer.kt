@@ -1,12 +1,14 @@
 //Created by Graham Duthie on 27/11/2023 16:10
 package com.madebyfun.obstacleavoid.game
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.GlyphLayout
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.Disposable
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.badlogic.gdx.utils.viewport.Viewport
@@ -52,10 +54,27 @@ class GameRenderer(private val controller: GameController) : Disposable {
         debugCameraController.handleDebugInput()
         debugCameraController.applyTo(camera)
         clearScreen()
+
+        if (Gdx.input.isTouched && !controller.gameOver) {
+            reactToTouch()
+        }
+
         renderGamePlay(viewport)
         renderUI(hudViewport)
         renderDebug(viewport)
         viewport.drawGrid(renderer)
+
+    }
+
+    private fun reactToTouch() {
+        val screenTouch = Vector2(Gdx.input.x.toFloat(), Gdx.input.y.toFloat())
+        val worldTouch = viewport.unproject(screenTouch)
+
+        log.debug("ScreenTouch: $screenTouch")
+        log.debug("WorldTouch: $worldTouch")
+
+        val player = controller.player
+        player.movePlayer(worldTouch.x)
 
     }
 

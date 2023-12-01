@@ -79,23 +79,9 @@ class GameController {
         }
         playerMovedX += xSpeed
 
-        player.movePlayer(withinWorld(playerMovedX))
+        player.movePlayer(playerMovedX)
     }
 
-    /**
-     * Ensures player x and y does not exceed world drawable boundary.
-     */
-    private fun withinWorld(playerMovedX: Float): Float {
-        var x = playerMovedX
-        val rightmostX = GameConfig.WORLD_WIDTH - GameConfig.OBSTACLE_AND_PLAYER_RADIUS
-        val leftmostX = GameConfig.OBSTACLE_AND_PLAYER_RADIUS
-
-        if (playerMovedX < leftmostX)
-            x = leftmostX
-        else if (playerMovedX > rightmostX )
-            x = rightmostX
-        return x
-    }
 
     private fun restart() {
         obstaclePool.freeAll(obstacles)
