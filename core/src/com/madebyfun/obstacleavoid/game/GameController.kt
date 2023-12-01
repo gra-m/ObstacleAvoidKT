@@ -57,7 +57,22 @@ class GameController {
         if(playerIsCollidingWithObstacle() && timeSinceCollision >= 1f) {
             timeSinceCollision = 0f
             lives--
+            when {
+                gameOver -> log.debug("Game Over")
+                else -> restart()
+            }
         }
+
+
+
+
+    }
+
+    private fun restart() {
+        obstaclePool.freeAll(obstacles)
+        obstacles.clear()
+        player.reset()
+
     }
 
     private fun playerIsCollidingWithObstacle(): Boolean {

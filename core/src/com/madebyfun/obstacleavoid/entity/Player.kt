@@ -32,5 +32,11 @@ class Player(x: Float, y: Float) : ObjectBase(x, y) {
         updateBounds()
     }
 
+    fun reset() {
+        this.x = GameConfig.WORLD_CENTER_X
+        this.y = 1f
+        updateBounds()
+    }
+
 
 }

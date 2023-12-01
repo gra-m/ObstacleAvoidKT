@@ -13,7 +13,7 @@ object GameConfig {
     const val WORLD_CENTER_Y = WORLD_HEIGHT/2
     const val OBSTACLE_AND_PLAYER_RADIUS = 0.4f
     const val OBSTACLE_AND_PLAYER_SIZE = 2 * OBSTACLE_AND_PLAYER_RADIUS
-    const val PLAYER_START_LIVES = 10
+    const val PLAYER_START_LIVES = 3
     const val OBSTACLE_SPAWN_TIME = 0.25f
     const val SCORE_NOW_TIME = 1.25f
 
